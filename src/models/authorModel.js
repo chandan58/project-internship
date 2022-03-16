@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 
+//Author Model
 const authorSchema = new mongoose.Schema({
     fname: {
         type: String,

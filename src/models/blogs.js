@@ -1,6 +1,7 @@
 const mongoose = require("mongoose")
-const  ObjectId= mongoose.Schema.Types.ObjectId;
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
+//Blogs Model
 const blogSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -20,7 +21,7 @@ const blogSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    subcategory: { type: String },
+    subcategory:[String],
     deletedAt: { type: String },
     isDeleted: {
         type: Boolean,
