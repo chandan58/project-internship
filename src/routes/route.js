@@ -26,9 +26,9 @@ router.put("/updateBlogs/:blogId", middleware.authenticate, blogController.updat
 router.delete("/deleteBlogs/:blogId", middleware.authenticate, blogController.deleteBlogs)
 router.delete("/deleteBlogs", middleware.authenticate, blogController.deleteBlogByQuery)
 
-// AUTHORISATION
-router.put("/updateBlogs/:blogId", middleware.authenticate, middleware.authorisation, blogController.updateBlogs)
-router.delete("/deleteBlogs/:blogId", middleware.authenticate, middleware.authorisation, blogController.deleteBlogs)
-router.delete("/deleteBlogs", middleware.authenticate,middleware.authorisation, blogController.deleteBlogByQuery)
+// // AUTHORISATION
+// router.put("/updateBlogs/:blogId", middleware.authenticate, middleware.authorisation, blogController.updateBlogs)
+// router.delete("/deleteBlogs/:blogId", middleware.authenticate, middleware.authorisation, blogController.deleteBlogs)
+// router.delete("/deleteBlogs", middleware.authenticate,middleware.authorisation, blogController.deleteBlogByQuery)
 
 module.exports = router;
