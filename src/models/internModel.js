@@ -13,7 +13,6 @@ const InternSchema = new mongoose.Schema({
 
     collegeId: {
         type:ObjectId,
-        required: true,
         ref: "college"
     },
     email: {

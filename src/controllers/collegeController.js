@@ -1,5 +1,5 @@
 const collegeModel = require('../models/CollegeModel');
-const CollegeModel = require('../models/CollegeModel')
+const internModel = require('../models/internModel')
 
 const isValid = function (value) {
   if (typeof value === 'undefined' || value === null)
@@ -34,10 +34,9 @@ const createCollege = async function (req, res) {
       res.status(400).send({ status: false, message: 'LogoLink is required' })
       return
     }
-
-
+  
     const collegeData = { name, fullName, logoLink }
-    const college = await CollegeModel.create(collegeData);
+    const college = await collegeModel.create(collegeData);
 
     res.status(201).send({ status: true, message: `College created successfully`, data: college });
 
@@ -47,33 +46,36 @@ const createCollege = async function (req, res) {
 }
 
 
-const getCollegeDetails = async function (req, res) {
+const GetcollegeDetails = async function (req, res) {
+
   try {
-   let collegeName = req.query.collegeName
-   if(!collegeName){ return res.status(400).send({status:false,error:"please provide collegeName in quiry"})}
-   let requestedCollege = await collegeModel.findOne({name : collegeName})
-   if(!requestedCollege){ return res.status(400).send({status:false,error:"no college found"})}
-   let availableInterns = await collegeModel.find({collegeId:requestedCollege._id})
 
-   let result = {name:requestedCollege.name, fullName:requestedCollege.fullName, logoLink: requestedCollege.logoLink}
+      let fix = await collegeModel.findOne({ name: req.query.CollegeName, isDeleted : false })
+      console.log(fix)
+      if (!fix) {
+          res.status(400).send({ status: false, msg: " No college found" })
+      }
+      else {
+          let ID = fix._id
+          let data = fix
+          let interns = await internModel.find({ collegeId: ID, isDeleted: false }).select({ _id: 1, name: 1, email: 1, mobile: 1 })
+          if (!interns.length > 0) {
+              return res.status(400).send({ status: false, msg: "No Interns applied for an internship" })
+          }
+          else {
+              let details = { name: data.name, fullname: data.fullName, logolink: data.logoLink, interests: interns }
+              return res.status(200).send({ status: true, data: details })
+          }
+      }
 
-   if(availableInterns.length >0){
-     result["interests"] =  availableInterns 
-     return res.status(200).send({ data : result })
-   }
-   
-   if(availableInterns.length >0){
-    result["interests"] =  "No interests found" 
-    return res.status(200).send({data : result })
   }
-   
-  } catch (error) {
-    res.status(500).send({ error: error.message })
+  catch (error) {
+      res.status(500).send(error.message)
   }
 }
 
 module.exports.createCollege = createCollege
-module.exports.getCollegeDetails = getCollegeDetails
+module.exports.GetcollegeDetails = GetcollegeDetails
 
 
 

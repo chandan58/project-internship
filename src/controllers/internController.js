@@ -1,14 +1,12 @@
-const collegeModel = require('../models/CollegeModel')
-const internModel = require('../models/internModel')
 const mongoose = require("mongoose")
-
+const internModel = require('../models/internModel')
 
 const CreateIntern = async function (req, res) {
     try {
         let intern = req.body
         let name = req.body.name
         let mobile = req.body.mobile
-        let collegeId = req.body.collegeId
+        let collegeId= req.body.collegeId
         let email = req.body.email
 
         if (!name) return res.status(400).send({ status: false, msg: "name is required" })
@@ -24,6 +22,7 @@ const CreateIntern = async function (req, res) {
             res.status(400).send({ status: false, message: `phoneNumber should be a valid number` })
             return
         }
+        
         const isEmailUsed = await internModel.findOne({ email });
         if (isEmailUsed) {
             return res.status(400).send({
