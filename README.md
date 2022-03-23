@@ -1,1 +1,1 @@
-# project-internshipGroup78
+# project-internship
